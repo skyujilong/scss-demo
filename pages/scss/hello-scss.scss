@@ -43,3 +43,48 @@ h1 {
         }
     }
 }
+$color:red;
+.test-var{
+    h2{
+        color: $color;
+    }
+}
+$color: #efefef;
+//变量作用域是全局的，一经修改，就要完蛋了。
+
+//特殊变量
+$index:1;
+.sp-#{$index}{
+    color: blue;
+}
+
+.ie-test{
+    display: inline-block;
+    *display: inline;
+    *zoom:1;
+}
+
+//@at-root跳出所有的嵌套
+.outer{
+    a{
+        color: #515151;
+    }
+    @at-root a{
+        color: red;
+    }
+}
+
+//继承@extend
+.extend{
+    @extend h1;
+    text-align: center;
+}
+// 占位选择器，不被调用不被解析
+%r1{
+    color: red;
+    height: 50px;
+    line-height: 50px;
+}
+.zhanwei{
+    @extend %r1;
+}

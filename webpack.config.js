@@ -104,7 +104,7 @@ module.exports = ((isDev) => {
                     loader: isDev ? 'style!css?sourceMap!sass?sourceMap' : cssExtractTextPlugin.extract('style', ['css!sass'])
                 }, {
                     test: /\.(png|jpeg|jpg|gif)$/,
-                    loader: 'url?limit=8192&name=img/[name]-[hash].[ext]'
+                    loader: 'url?limit=1&name=img/[name]-[hash].[ext]'
                 }, //图片加载对象
                 {
                     test: /\.tpl$/,
