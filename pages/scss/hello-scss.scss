@@ -88,3 +88,21 @@ $index:1;
 .zhanwei{
     @extend %r1;
 }
+@mixin opacity($opacity:50,$bg-color:red) {
+    opacity: $opacity / 100;
+    background-color: $bg-color;
+}
+.test-mixin{
+    @include opacity;
+}
+$bg-color:yellow;
+.test-mixin-args{
+    @include opacity($bg-color:blue);
+}
+.test-mixin-2{
+    @include opacity;
+    border-radius: 3px;
+    display: flex;
+    color: rgba(40,50,50,0.8);//ie没有这个的办法
+    background: rgba(153, 221, 153, 0.8);
+}

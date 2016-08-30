@@ -11,6 +11,9 @@ let SpritesmithPlugin = require('webpack-spritesmith');
 let srcDir = path.resolve(process.cwd(), 'pages');
 let assets = path.resolve(process.cwd(), 'assets');
 let testDir = path.resolve(__dirname, "test");
+let autoprefixer = require('autoprefixer');
+let postcssOpacity = require('postcss-opacity');
+let colorRgbaFallback = require("postcss-color-rgba-fallback")
 
 let spritePlugin = new SpritesmithPlugin({
     src: {
@@ -101,7 +104,7 @@ module.exports = ((isDev) => {
                 // }, //css加载器 inline模式
                 {
                     test: /\.scss$/,
-                    loader: isDev ? 'style!css?sourceMap!sass?sourceMap' : cssExtractTextPlugin.extract('style', ['css!sass'])
+                    loader: isDev ? 'style!css?sourceMap!postcss-loader?sourceMap=inline!sass?sourceMap' : cssExtractTextPlugin.extract('style', ['css!postcss-loader!sass'])
                 }, {
                     test: /\.(png|jpeg|jpg|gif)$/,
                     loader: 'url?limit=1&name=img/[name]-[hash].[ext]'
@@ -117,7 +120,7 @@ module.exports = ((isDev) => {
             noParse: [/zepto\.main\.js/, /es5-shim\.min\.js/, /es5-sham\.min\.js/]
         },
         plugins: (() => {
-            let list = [new webpack.NoErrorsPlugin(),spritePlugin];
+            let list = [new webpack.NoErrorsPlugin(), spritePlugin];
             if (!isDev) {
                 list.push(new webpack.optimize.UglifyJsPlugin({
                     compress: {
@@ -132,6 +135,21 @@ module.exports = ((isDev) => {
                 }), cssExtractTextPlugin);
             }
             return list.concat(htmlPlugins);
-        })()
+        })(),
+        // postcss配置
+        postcss: function() {
+            return [
+                //为ie浏览器添加opactity filter
+                postcssOpacity(),
+                //自动添加前缀
+                autoprefixer({
+                    browsers: ['ie > 6', 'last 10 Chrome versions', 'last 10 Firefox versions', 'last 10 Opera versions']
+                }),
+                //将rgba转化成对应ie浏览器也能解析的filter
+                colorRgbaFallback({
+                    oldie:true
+                })
+            ];
+        }
     };
 });

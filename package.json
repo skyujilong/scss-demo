@@ -4,8 +4,7 @@
   "scripts": {
     "dev-bulid": "gulp dev-bulid",
     "bulid": "gulp",
-    "dev-server":"node server/server.js -p 8989",
-    "http":"http-server -a 127.0.0.1 -p 80"
+    "dev-server":"node server/server.js"
   },
   "dependencies": {
     "css-loader": "^v0.23.1",
@@ -26,6 +25,10 @@
     "webpack-dev-server": "^1.14.1",
     "webpack-spritesmith":"^0.2.6",
     "sass-loader":"^4.0.0",
-    "node-sass":"^3.8.0"
+    "node-sass":"^3.8.0",
+    "postcss-loader":"^0.11.0",
+    "autoprefixer":"^6.4.0",
+    "postcss-opacity":"^4.0.0",
+    "postcss-color-rgba-fallback":"^2.0.0"
   }
 }

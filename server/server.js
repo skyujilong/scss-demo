@@ -8,14 +8,14 @@
 let WebpackDevServer = require("webpack-dev-server");
 let webpack = require("webpack");
 let argv = require('optimist').default({
-    'p':8888,//默认端口号
+    'p':80,//默认端口号
     'a':'127.0.0.1'//默认的服务地址
 }).argv;
 let path = require('path');
 let webpackConfig = require('../webpack.config.js')(true);
 let transformEntry = require('./transform-entry.js');
 webpackConfig.entry = transformEntry.transform(webpackConfig.entry,argv.a,argv.p);
-webpackConfig.output.publicPath = 'http://' + argv.a + ':' + argv.p + '/assets/';
+webpackConfig.output.publicPath = 'http://' + argv.a + ':' + argv.p + '/';
 webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 
 let compiler = webpack(webpackConfig, function (err, stats) {
@@ -46,7 +46,7 @@ let server = new WebpackDevServer(compiler, {
         aggregateTimeout: 300,
         poll: 1000
     },
-    publicPath: "/assets/",
+    publicPath: "/",
     headers: {"X-Custom-Header": "yes"},
     stats: {colors: true}
 });
